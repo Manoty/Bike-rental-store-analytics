@@ -1,0 +1,78 @@
+version: 2
+
+sources:
+  - name: bike_store
+    description: "Raw Bike Store relational data loaded from CSV files"
+    schema: main
+    tables:
+      - name: brands
+        description: "Bike brands"
+        columns:
+          - name: brand_id
+            tests: [unique, not_null]
+          - name: brand_name
+            tests: [not_null]
+
+      - name: categories
+        description: "Product categories"
+        columns:
+          - name: category_id
+            tests: [unique, not_null]
+          - name: category_name
+            tests: [not_null]
+
+      - name: customers
+        description: "Customer details — phone is ~88% null, expected"
+        columns:
+          - name: customer_id
+            tests: [unique, not_null]
+
+      - name: order_items
+        description: "Line items per order — one row per product per order"
+        columns:
+          - name: order_id
+            tests: [not_null]
+          - name: item_id
+            tests: [not_null]
+          - name: product_id
+            tests: [not_null]
+
+      - name: orders
+        description: "Order headers — status is integer coded 1-4"
+        columns:
+          - name: order_id
+            tests: [unique, not_null]
+          - name: customer_id
+            tests: [not_null]
+          - name: store_id
+            tests: [not_null]
+          - name: staff_id
+            tests: [not_null]
+
+      - name: products
+        description: "Product catalogue with brand and category FKs"
+        columns:
+          - name: product_id
+            tests: [unique, not_null]
+
+      - name: staffs
+        description: "Staff — manager_id is null for the top-level manager"
+        columns:
+          - name: staff_id
+            tests: [unique, not_null]
+          - name: store_id
+            tests: [not_null]
+
+      - name: stocks
+        description: "Inventory levels per store per product"
+        columns:
+          - name: store_id
+            tests: [not_null]
+          - name: product_id
+            tests: [not_null]
+
+      - name: stores
+        description: "Store locations — 3 stores across CA, NY, TX"
+        columns:
+          - name: store_id
+            tests: [unique, not_null]
