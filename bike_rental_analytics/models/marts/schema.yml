@@ -1,0 +1,62 @@
+version: 2
+
+models:
+  - name: fct_orders
+    description: "One row per order line item — completed orders only"
+    columns:
+      - name: order_id
+        tests: [not_null]
+      - name: item_id
+        tests: [not_null]
+      - name: product_id
+        tests: [not_null, relationships:
+            {to: ref('dim_products'), field: product_id}]
+      - name: customer_id
+        tests: [not_null, relationships:
+            {to: ref('dim_customers'), field: customer_id}]
+      - name: staff_id
+        tests: [not_null, relationships:
+            {to: ref('dim_staff'), field: staff_id}]
+      - name: store_id
+        tests: [not_null, relationships:
+            {to: ref('dim_stores'), field: store_id}]
+      - name: line_revenue
+        tests: [not_null]
+
+  - name: dim_products
+    description: "Product catalogue with brand and category"
+    columns:
+      - name: product_id
+        tests: [unique, not_null]
+
+  - name: dim_customers
+    description: "Customer dimension"
+    columns:
+      - name: customer_id
+        tests: [unique, not_null]
+
+  - name: dim_staff
+    description: "Staff dimension with store info"
+    columns:
+      - name: staff_id
+        tests: [unique, not_null]
+
+  - name: dim_stores
+    description: "Store dimension"
+    columns:
+      - name: store_id
+        tests: [unique, not_null]
+```
+
+---
+
+Your marts folder:
+```
+models/
+└── marts/
+    ├── schema.yml
+    ├── dim_customers.sql
+    ├── dim_products.sql
+    ├── dim_staff.sql
+    ├── dim_stores.sql
+    └── fct_orders.sql
